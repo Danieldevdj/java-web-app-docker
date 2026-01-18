@@ -1,0 +1,112 @@
+# Example Environment Configuration
+# Copy this file and customize for your environment
+# Usage: Copy to environment-specific files like production.env, staging.env
+
+# ==========================================
+# Network Configuration
+# ==========================================
+VIRTUAL_IP=192.168.1.100
+NETWORK_CIDR=192.168.1.0/24
+POD_NETWORK_CIDR=10.244.0.0/16
+SERVICE_CIDR=10.96.0.0/12
+
+# ==========================================
+# Kubernetes Master IPs
+# ==========================================
+K8S_MASTER_1_IP=192.168.1.11
+K8S_MASTER_2_IP=192.168.1.12
+K8S_MASTER_3_IP=192.168.1.13
+
+# ==========================================
+# Kubernetes Worker IPs
+# ==========================================
+K8S_WORKER_1_IP=192.168.1.21
+K8S_WORKER_2_IP=192.168.1.22
+K8S_WORKER_3_IP=192.168.1.23
+K8S_WORKER_4_IP=192.168.1.24
+K8S_WORKER_5_IP=192.168.1.25
+
+# ==========================================
+# Load Balancer IPs
+# ==========================================
+LB_1_IP=192.168.1.31
+LB_2_IP=192.168.1.32
+
+# ==========================================
+# Monitoring Server IP
+# ==========================================
+MONITORING_IP=192.168.1.41
+
+# ==========================================
+# Version Configuration
+# ==========================================
+KUBERNETES_VERSION=1.28.0
+DOCKER_VERSION=24.0.7
+CONTAINERD_VERSION=1.6.24
+PROMETHEUS_VERSION=2.47.0
+GRAFANA_VERSION=latest
+NODE_EXPORTER_VERSION=1.6.1
+CALICO_VERSION=v3.26.1
+
+# ==========================================
+# Service Ports
+# ==========================================
+K8S_API_PORT=6443
+HAPROXY_STATS_PORT=8404
+PROMETHEUS_PORT=9090
+GRAFANA_PORT=3000
+NODE_EXPORTER_PORT=9100
+
+# ==========================================
+# Authentication
+# ==========================================
+# WARNING: Change these in production!
+HAPROXY_STATS_USER=admin
+HAPROXY_STATS_PASSWORD=admin
+GRAFANA_ADMIN_USER=admin
+GRAFANA_ADMIN_PASSWORD=admin
+KEEPALIVED_AUTH_PASS=K8sHA2024
+
+# ==========================================
+# SSH Configuration
+# ==========================================
+ANSIBLE_USER=ubuntu
+ANSIBLE_SSH_KEY=~/.ssh/id_rsa
+
+# ==========================================
+# Docker Registry
+# ==========================================
+DOCKER_REGISTRY=docker.io
+DOCKER_USERNAME=your-dockerhub-username
+DOCKER_IMAGE_NAME=java-web-app
+
+# ==========================================
+# Application Configuration
+# ==========================================
+APP_REPLICAS=2
+APP_NODE_PORT=30080
+APP_HTTPS_NODE_PORT=30443
+
+# ==========================================
+# Monitoring Configuration
+# ==========================================
+PROMETHEUS_RETENTION=15d
+PROMETHEUS_SCRAPE_INTERVAL=15s
+GRAFANA_ALLOW_SIGN_UP=false
+
+# ==========================================
+# High Availability Configuration
+# ==========================================
+KEEPALIVED_PRIORITY_MASTER=100
+KEEPALIVED_PRIORITY_BACKUP=90
+KEEPALIVED_ROUTER_ID=51
+HAPROXY_HEALTH_CHECK_INTERVAL=2s
+HAPROXY_HEALTH_CHECK_FALL=3
+HAPROXY_HEALTH_CHECK_RISE=2
+
+# ==========================================
+# Backup Configuration
+# ==========================================
+BACKUP_DIR=/backup
+ETCD_BACKUP_SCHEDULE="0 2 * * *"  # Daily at 2 AM
+PROMETHEUS_BACKUP_SCHEDULE="0 3 * * 0"  # Weekly on Sunday at 3 AM
