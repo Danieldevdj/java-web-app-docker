@@ -23,10 +23,11 @@ path = grafana.db
 
 [security]
 # Default admin user
-admin_user = admin
+admin_user = {{ grafana_admin_user | default('admin') }}
 
 # Default admin password
-admin_password = admin
+# WARNING: Change this in production! Use Ansible vault for secure passwords
+admin_password = {{ grafana_admin_password | default('admin') }}
 
 # Secret key for signing
 secret_key = SW2YcwTIb9zpOOhoPsMm

@@ -136,14 +136,18 @@ echo "Setup Complete!"
 echo "========================================"
 echo ""
 echo "Access your infrastructure:"
-echo "  Kubernetes API: https://192.168.1.100:6443"
-echo "  HAProxy Stats: http://192.168.1.31:8404/stats (admin/admin)"
-echo "  Prometheus: http://192.168.1.41:9090"
-echo "  Grafana: http://192.168.1.41:3000 (admin/admin)"
+@VIP=$$(grep "virtual_ip" $(INVENTORY) | grep -oP '=\K[^ ]+' || echo "192.168.1.100"); \
+K8S_MASTER_IP=$$(grep "k8s-master-1" $(INVENTORY) | grep -oP 'ansible_host=\K[^ ]+' || echo "192.168.1.11"); \
+LB_IP=$$(grep "lb-1" $(INVENTORY) | grep -oP 'ansible_host=\K[^ ]+' || echo "192.168.1.31"); \
+MON_IP=$$(grep "monitoring-1" $(INVENTORY) | grep -oP 'ansible_host=\K[^ ]+' || echo "192.168.1.41"); \
+echo "  Kubernetes API: https://$$VIP:6443"; \
+echo "  HAProxy Stats: http://$$LB_IP:8404/stats (admin/admin)"; \
+echo "  Prometheus: http://$$MON_IP:9090"; \
+echo "  Grafana: http://$$MON_IP:3000 (admin/admin)"
 echo ""
 echo "Next steps:"
-echo "  1. Copy kubeconfig: scp ubuntu@192.168.1.11:~/.kube/config ~/.kube/config"
-echo "  2. Update server address: kubectl config set-cluster kubernetes --server=https://192.168.1.100:6443"
+echo "  1. Copy kubeconfig: scp ubuntu@$$K8S_MASTER_IP:~/.kube/config ~/.kube/config"
+echo "  2. Update server address: kubectl config set-cluster kubernetes --server=https://$$VIP:6443"
 echo "  3. Deploy application: kubectl apply -f ../javawebapp-deployment.yml"
 echo "  4. Configure Grafana dashboards"
 echo ""

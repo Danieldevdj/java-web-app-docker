@@ -52,7 +52,8 @@ listen stats
     stats enable
     stats uri /stats
     stats realm HAProxy\ Statistics
-    stats auth admin:admin
+    # WARNING: Change credentials in production! Define in group_vars/loadbalancers.yml
+    stats auth {{ haproxy_stats_user | default('admin') }}:{{ haproxy_stats_password | default('admin') }}
     stats refresh 30s
 
 #---------------------------------------------------------------------

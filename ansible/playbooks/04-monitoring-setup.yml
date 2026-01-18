@@ -204,6 +204,8 @@
         name: grafana-server
         state: restarted
 
+# Note: Node Exporter is also installed on monitoring server in the Prometheus play above
+# This play installs it on the remaining infrastructure nodes (k8s_cluster and loadbalancers)
 - name: Install Node Exporter on all nodes
   hosts: k8s_cluster:loadbalancers
   become: yes

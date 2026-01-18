@@ -23,7 +23,9 @@ vrrp_instance VI_1 {
     
     authentication {
         auth_type PASS
-        auth_pass K8sHA2024
+        # WARNING: Change password in production! Define in group_vars/loadbalancers.yml
+        # Consider using Ansible vault for encrypted passwords
+        auth_pass {{ keepalived_auth_pass | default('K8sHA2024') }}
     }
     
     virtual_ipaddress {

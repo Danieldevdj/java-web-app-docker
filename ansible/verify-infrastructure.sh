@@ -76,7 +76,8 @@ check_service "loadbalancers" "haproxy" "HAProxy Service"
 check_service "loadbalancers" "keepalived" "Keepalived Service"
 echo ""
 echo "Virtual IP Status:"
-ansible loadbalancers -i inventory/hosts.ini -m shell -a "ip addr show | grep '192.168.1.100' || echo 'VIP not found on this node'" 2>/dev/null | grep -A1 "SUCCESS"
+VIP=$(grep "virtual_ip" inventory/hosts.ini | grep -oP '=\K[^ ]+' || echo "192.168.1.100")
+ansible loadbalancers -i inventory/hosts.ini -m shell -a "ip addr show | grep '$VIP' || echo 'VIP not found on this node'" 2>/dev/null | grep -A1 "SUCCESS"
 
 # 5. Check Monitoring
 print_header "5. Monitoring Stack Status"

@@ -418,6 +418,45 @@ ansible/
         └── grafana.ini.j2               # Grafana config
 ```
 
+## Security Best Practices
+
+### Production Security Checklist
+
+**IMPORTANT**: The default configuration includes placeholder passwords that MUST be changed for production use.
+
+1. **Change Default Passwords**
+   - Edit `group_vars/loadbalancers.yml` to set secure passwords:
+     ```yaml
+     haproxy_stats_user: your_secure_username
+     haproxy_stats_password: your_secure_password
+     keepalived_auth_pass: your_secure_vrrp_password
+     ```
+   - Edit `group_vars/monitoring.yml` to set Grafana credentials:
+     ```yaml
+     grafana_admin_user: your_admin_user
+     grafana_admin_password: your_secure_password
+     ```
+
+2. **Use Ansible Vault for Sensitive Data**
+   ```bash
+   # Create encrypted password file
+   ansible-vault create group_vars/secrets.yml
+   
+   # Add encrypted variables
+   haproxy_stats_password: !vault |
+     $ANSIBLE_VAULT;1.1;AES256...
+   
+   # Run playbooks with vault
+   ansible-playbook -i inventory/hosts.ini site.yml --ask-vault-pass
+   ```
+
+3. **Additional Security Measures**
+   - Configure firewall rules (UFW/iptables)
+   - Implement Kubernetes RBAC policies
+   - Use network policies for pod-to-pod communication
+   - Enable TLS/SSL for all services
+   - Regular security updates: `ansible all -i inventory/hosts.ini -m apt -a "upgrade=dist" --become`
+
 ## Contributing
 
 1. Fork the repository

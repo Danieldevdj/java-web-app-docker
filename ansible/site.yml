@@ -12,6 +12,7 @@
 
 - import_playbook: playbooks/01-docker-setup.yml
 - import_playbook: playbooks/02-kubernetes-setup.yml
+# Deploy Keepalived scripts before configuring services (they're referenced in keepalived.conf)
 - import_playbook: playbooks/05-keepalived-scripts.yml
 - import_playbook: playbooks/03-loadbalancer-setup.yml
 - import_playbook: playbooks/04-monitoring-setup.yml
