@@ -1,0 +1,39 @@
+# Ansible specific ignores
+*.retry
+*.log
+ansible.log
+
+# Ansible facts cache
+/tmp/ansible_facts
+
+# Ansible vault password files
+.vault_pass
+vault_password.txt
+
+# SSH keys (if accidentally placed here)
+*.pem
+*.key
+id_rsa*
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# Python bytecode
+*.pyc
+__pycache__/
+
+# Downloaded packages
+*.tar.gz
+*.zip
+downloads/
+
+# Local inventory override (for testing)
+inventory/local.ini
+inventory/test.ini
+
+# Backup files
+*.backup
+*.bak
+*.orig

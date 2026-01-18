@@ -1,0 +1,19 @@
+---
+# Variables specific to load balancers
+
+# Virtual IP for high availability
+virtual_ip: 192.168.1.100
+
+# HAProxy settings
+haproxy_stats_port: 8404
+haproxy_stats_user: admin
+haproxy_stats_password: admin
+
+# Keepalived settings
+keepalived_router_id: 51
+keepalived_auth_pass: K8sHA2024
+
+# Backend health check settings
+backend_check_interval: 2000
+backend_check_fall: 3
+backend_check_rise: 2

@@ -1,0 +1,19 @@
+---
+# Variables specific to Kubernetes cluster
+
+# Kubernetes version
+k8s_version: "1.28.0-00"
+kubernetes_version: "1.28.0"
+
+# Network settings
+pod_network_cidr: "10.244.0.0/16"
+service_cidr: "10.96.0.0/12"
+
+# Control plane endpoint (HAProxy VIP)
+control_plane_endpoint: "192.168.1.100:6443"
+
+# Calico network plugin
+calico_version: "v3.26.1"
+
+# Kubernetes API settings
+apiserver_advertise_address: "{{ ansible_default_ipv4.address }}"

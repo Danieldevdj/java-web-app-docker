@@ -1,0 +1,31 @@
+---
+# Additional playbook for Keepalived notification scripts
+- name: Deploy Keepalived notification scripts
+  hosts: loadbalancers
+  become: yes
+  tasks:
+    - name: Create /etc/keepalived directory if not exists
+      file:
+        path: /etc/keepalived
+        state: directory
+        mode: '0755'
+
+    - name: Copy notification scripts
+      copy:
+        src: "../configs/keepalived/{{ item }}"
+        dest: "/etc/keepalived/{{ item }}"
+        mode: '0755'
+        owner: root
+        group: root
+      loop:
+        - notify_master.sh
+        - notify_backup.sh
+        - notify_fault.sh
+
+    - name: Create keepalived log file
+      file:
+        path: /var/log/keepalived-transitions.log
+        state: touch
+        mode: '0644'
+        owner: root
+        group: root
