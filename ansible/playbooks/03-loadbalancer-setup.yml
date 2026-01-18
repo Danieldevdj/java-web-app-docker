@@ -1,0 +1,90 @@
+---
+# Playbook 3: HAProxy and Keepalived Load Balancer Setup
+- name: Install and configure HAProxy
+  hosts: loadbalancers
+  become: yes
+  vars:
+    haproxy_version: "2.8.*"
+    
+  tasks:
+    - name: Install HAProxy
+      apt:
+        name:
+          - haproxy
+          - keepalived
+        state: present
+        update_cache: yes
+
+    - name: Enable IP forwarding
+      sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        sysctl_set: yes
+        state: present
+        reload: yes
+
+    - name: Enable non-local IP binding
+      sysctl:
+        name: net.ipv4.ip_nonlocal_bind
+        value: '1'
+        sysctl_set: yes
+        state: present
+        reload: yes
+
+    - name: Backup original HAProxy configuration
+      copy:
+        src: /etc/haproxy/haproxy.cfg
+        dest: /etc/haproxy/haproxy.cfg.backup
+        remote_src: yes
+        force: no
+
+    - name: Configure HAProxy for Kubernetes API and application
+      template:
+        src: ../configs/haproxy/haproxy.cfg.j2
+        dest: /etc/haproxy/haproxy.cfg
+        mode: '0644'
+        validate: 'haproxy -c -f %s'
+      notify: Restart HAProxy
+
+    - name: Enable HAProxy service
+      systemd:
+        name: haproxy
+        enabled: yes
+        state: started
+
+  handlers:
+    - name: Restart HAProxy
+      systemd:
+        name: haproxy
+        state: restarted
+
+- name: Configure Keepalived for High Availability
+  hosts: loadbalancers
+  become: yes
+  tasks:
+    - name: Backup original Keepalived configuration
+      copy:
+        src: /etc/keepalived/keepalived.conf
+        dest: /etc/keepalived/keepalived.conf.backup
+        remote_src: yes
+        force: no
+      ignore_errors: yes
+
+    - name: Configure Keepalived
+      template:
+        src: ../configs/keepalived/keepalived.conf.j2
+        dest: /etc/keepalived/keepalived.conf
+        mode: '0644'
+      notify: Restart Keepalived
+
+    - name: Enable Keepalived service
+      systemd:
+        name: keepalived
+        enabled: yes
+        state: started
+
+  handlers:
+    - name: Restart Keepalived
+      systemd:
+        name: keepalived
+        state: restarted

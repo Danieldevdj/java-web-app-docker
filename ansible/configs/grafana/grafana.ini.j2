@@ -1,0 +1,75 @@
+##################### Grafana Configuration #####################
+# Managed by Ansible - Do not edit manually
+
+[server]
+# Protocol (http, https, h2, socket)
+protocol = http
+
+# The http port to use
+http_port = 3000
+
+# The public facing domain name used to access grafana from a browser
+domain = {{ ansible_host }}
+
+# Serve Grafana from subpath specified in root_url setting
+root_url = %(protocol)s://%(domain)s:%(http_port)s/
+
+[database]
+# Database type: mysql, postgres or sqlite3
+type = sqlite3
+
+# Path to database file (when using sqlite3)
+path = grafana.db
+
+[security]
+# Default admin user
+admin_user = admin
+
+# Default admin password
+admin_password = admin
+
+# Secret key for signing
+secret_key = SW2YcwTIb9zpOOhoPsMm
+
+[auth.anonymous]
+# Enable anonymous access
+enabled = false
+
+[dashboards]
+# Versions to keep (per dashboard). Default: 20
+versions_to_keep = 20
+
+[log]
+# Either "console", "file", "syslog". Default is console and file
+mode = console file
+
+# Log level. Either "debug", "info", "warn", "error", "critical"
+level = info
+
+[log.console]
+level = info
+
+[log.file]
+level = info
+log_rotate = true
+max_lines = 1000000
+max_size_shift = 28
+daily_rotate = true
+max_days = 7
+
+[paths]
+# Directory where grafana will automatically scan and look for plugins
+plugins = /var/lib/grafana/plugins
+
+# Directory where grafana stores data
+data = /var/lib/grafana
+
+# Directory where grafana stores logs
+logs = /var/log/grafana
+
+[metrics]
+# Enable internal metrics
+enabled = true
+
+[grafana_net]
+url = https://grafana.net

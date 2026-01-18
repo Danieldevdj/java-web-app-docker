@@ -1,0 +1,17 @@
+---
+# Main Ansible Playbook for Complete Infrastructure Setup
+# This playbook sets up the entire on-premise DevOps infrastructure
+
+- name: Setup Complete Infrastructure
+  hosts: all
+  become: yes
+  tasks:
+    - name: Display setup information
+      debug:
+        msg: "Setting up infrastructure on {{ inventory_hostname }}"
+
+- import_playbook: playbooks/01-docker-setup.yml
+- import_playbook: playbooks/02-kubernetes-setup.yml
+- import_playbook: playbooks/05-keepalived-scripts.yml
+- import_playbook: playbooks/03-loadbalancer-setup.yml
+- import_playbook: playbooks/04-monitoring-setup.yml
